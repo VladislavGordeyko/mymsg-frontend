@@ -20,14 +20,8 @@ const Home = () => {
     const data = window.Telegram.WebApp.initDataUnsafe.start_param;
     console.log(data);
     if (data) {
-      if (data.includes('chatId')) {
-        setChatId(data.split('__')[1]);
-      } else if (data.includes('sessionId')) {
-        setSession(data.split('__')[1]);
-        setGameType('Player');
-      } else if (data.includes('onlyAI')) {
-        setOnlyAI(true);
-      }
+      setSession(data);
+      setGameType('Player');
     }
   }, []);
 
