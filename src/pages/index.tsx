@@ -17,7 +17,8 @@ const Home = () => {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
 
-    const data = window.Telegram.WebApp.initDataUnsafe.start_param  || 'chatId__-1001828521159';
+    const data = window.Telegram.WebApp.initDataUnsafe.start_param;
+    console.log(data);
     if (data) {
       if (data.includes('chatId')) {
         setChatId(data.split('__')[1]);
@@ -44,13 +45,13 @@ const Home = () => {
     );
     default:
     case 'Unnasigned': return <>
-      <span className={styles['home__title']}>Tic Tac Toe</span>
+      <span className={styles['home__title']}>Mymsg</span>
       <div className={styles['home__buttons']}>
         <div className={styles['home__play-vs-friends']}>
-          {onlyAI && <Tooltip message='You need to add the bot to the group and start from there to play against your friends.' />}
-          <Button onClick={() => setGameType('Player')} text='Play vs friend' disabled={onlyAI}/>
+          {/* {onlyAI && <Tooltip message='You need to add the bot to the group and start from there to play against your friends.' />} */}
+          <Button onClick={() => setGameType('Player')} text='Start a Game' disabled={onlyAI}/>
         </div>
-        <Button onClick={() => setGameType('BOT')} text='Play vs Bot'/>
+        {/* <Button onClick={() => setGameType('BOT')} text='Play vs Bot'/> */}
       </div>
     </>;
     }
