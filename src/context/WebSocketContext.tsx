@@ -14,11 +14,16 @@ export const useWebSocketContext = () => {
 };
 
 export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sessionId, player }) => {
+
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isError, setIsError] = useState(false);
   // const [currentPlayer, setCurrentPlayer] = useState<IPlayer>(player);
   const WEBSOCKET_URL = process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:3000';
+
+  const maxReconnectAttempts = 20;
+  let reconnectAttempts = 0;
   const {
     sendMessage,
     lastMessage,
@@ -40,12 +45,31 @@ export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sess
       // }
       setIsLoading(false);
     },
-    onError: () => {
-      setIsError(true);
-      setError('Connection error');
-      setIsLoading(false);
+    onClose: () => {
+      console.log('WebSocket closed. Attempting to reconnect...');
+      setIsLoading(true); 
     },
-    shouldReconnect: (closeEvent) => true,
+    onError: () => {
+      setIsLoading(true); 
+      // setIsError(true);
+      // setError('Connection error');
+    },
+    // shouldReconnect: (closeEvent) => true,
+    shouldReconnect: (closeEvent) => {
+      setIsLoading(true);
+      // Increase reconnect attempts
+      reconnectAttempts++;
+      // Check if max attempts have been reached
+      if (reconnectAttempts < maxReconnectAttempts) {
+        console.log(`Reconnection attempt #${reconnectAttempts}`);
+        return true; // Attempt to reconnect
+      } else {
+        console.log('Max reconnection attempts reached.');
+        setIsError(true);
+        setError('Max reconnection attempts reached.');
+        return false; // Do not reconnect
+      }
+    },
   });
 
   return (
