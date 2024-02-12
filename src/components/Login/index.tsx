@@ -12,6 +12,12 @@ const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
   const [name, setName] = useState(telegramData?.user?.username);
   const [avatar, setAvatar] = useState<AvatarOption>(avatarOptions[0]);
 
+  useEffect(() => {
+    if(telegramData) {
+      setName(telegramData.user?.username);
+    }
+  },[telegramData]);
+
   const onJoin = () => {
     if (name) {
       onLogin(name, avatar.imageUrl);
@@ -22,18 +28,18 @@ const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
     setAvatar(avatar);
   };
 
-  // const getAvatar = async () => {
-  //   const tgService = new TelegramService();
-  //   if (telegramData?.user) {
-  //     const avatar = await tgService.getProfilePhoto(telegramData?.user?.id);
-  //     setAvatar(avatar);
-  //     console.log({avatar});
-  //   }
-  // };
+  const getAvatar = async () => {
+    const tgService = new TelegramService();
+    if (telegramData?.user) {
+      const avatar = await tgService.getProfilePhoto(telegramData?.user?.id);
+      // setAvatar(avatar);
+      console.log({avatar});
+    }
+  };
 
-  // useEffect(() => {
-  //   getAvatar();
-  // },[telegramData]);
+  useEffect(() => {
+    getAvatar();
+  },[telegramData]);
 
   return (
     <div className={styles['login']}>

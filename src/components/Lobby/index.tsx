@@ -92,7 +92,13 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
     switch(gameStatus?.status) {
     case 'lobby': return <div className={styles['lobby--padding']}>
       <div className={styles['lobby__header']}>Waiting another players to join...</div>
-      {isHost && <div className={styles['lobby__start-button']}><Button text='Start game' onClick={startGame} /></div>}
+      {isHost && <div className={styles['lobby__start-button']}>
+        <Button 
+          text='Start game' 
+          onClick={startGame}
+        //  disabled={players && players?.length < 3} 
+        />
+      </div>}
       <div className={styles['lobby__players']}>
         {players?.map(i => <PlayerCard key={i.clientId} player={i} isCurrentPlayer={i.clientId === clientId} />)}
       </div>
