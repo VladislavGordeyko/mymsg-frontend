@@ -1,22 +1,87 @@
 .game-status {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin: 20px 0;
-    font-size: 15px;
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   justify-content: space-between;
 
-    &__cards {
-        display: flex;
-        align-items: center;
-        color: var(--tg-theme-text-color);
-    }
+   &__image {
+      width: 50%;
+      height: 50%;
+   }
 
-    &__text {
-        text-align: center;
-        color: var(--tg-theme-text-color);
-        margin-top: 5px;
-        margin-bottom: 15px;
-        font-size: 17px;
-    }
+   &__input {
+      width: 100%;
+   }
+
+   &__word-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+      margin: 20px;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   &__word {
+      display: flex;
+      flex: 1;
+      align-items: center;
+   }
+
+   &__word-text {
+      transition: opacity 0.5s ease-in-out;
+      cursor: pointer;
+      text-align: center;
+      font-size: 25px;
+      font-weight: 800;
+   }
+
+   &__small-text {
+      font-size: 12px;
+      text-align: center;
+   }
+
+   &__guessed-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+   }
+
+   &__set-word-container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+      gap: 30px;
+   }
+
+   &__text {
+      font-size: 20px;   
+      color: var(--tg-theme-text-color);
+      text-align: center;
+   }
+
+   &__player-show {
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+   }
+   &__waiting {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+   }
+
+   &__watch {
+      display: flex;
+      flex: 1;
+      align-items: center;
+   }
 }

@@ -1,5 +1,9 @@
 .player-card {
-    height: 100px;
+    height: 150px;
+    background-color: white;
+    padding: 20px;
+    width: 150px;
+    border-radius: 10px;
     margin-right: 5px;
     margin-left: 5px;
     min-width: 80px;
@@ -7,6 +11,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+
+    &--selected {
+        // background-color: var(--tg-theme-link-color, #49ACEA);
+        // box-shadow: var(--tg-theme-link-color, #49ACEA) 0px 2px 8px 0px;
+
+        animation: glow 1.5s ease-in-out infinite;
+        background-color: var(--tg-theme-link-color, #49ACEA);
+    }
+
+    &--small {
+        width: 100px;
+        min-width: 100px;
+    }
+
+    &--current-player {
+        box-shadow: var(--tg-theme-link-color, #49ACEA) 0px 2px 8px 0px;
+    }
+
+
 
     &__image-container {
         border-radius: 58px;
@@ -64,3 +89,16 @@
         border: 2px solid rgba(255,255,255, 1);
     }
 }
+
+
+@keyframes glow {
+    0% {
+      box-shadow: 0 0 5px #49ACEA;
+    }
+    50% {
+      box-shadow: 0 0 13px var(--tg-theme-link-color, #49ACEA);
+    }
+    100% {
+      box-shadow: 0 0 5px #49ACEA;
+    }
+  }

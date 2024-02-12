@@ -2,9 +2,9 @@ import { IGameStatus, IPlayer } from '@/entities/game';
 
 export interface IGame {
     sessionId?: string,
-    players?: IPlayer[],
+    players: IPlayer[],
+    host?: IPlayer,
     gameStatusUpdate?: IGameStatus,
     clientId: string,
-    isSpectator?: boolean,
     onPlayersUpdate: (players: IPlayer[]) => void
 }

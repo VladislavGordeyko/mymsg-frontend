@@ -13,6 +13,7 @@ export interface IApi {
 export interface ITelegramService {
     sendGameInviteToChat(message: string, chatId: string, sessionId: string): Promise<ISendMessageChatData | undefined>;
     sendMessage(message: string): Promise<boolean>;
+    getProfilePhoto(userId: number): Promise<string>;
 }
 
 export interface ISendMessageChatData {

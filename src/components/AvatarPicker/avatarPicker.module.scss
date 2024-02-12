@@ -1,0 +1,41 @@
+.avatar-picker {
+    position: relative;
+    width: fit-content;
+
+    &__avatars {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 10px
+    }
+
+    &__avatar {
+        outline: 2px solid var(--tg-theme-link-color, #49ACEA);
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+
+        &--mock {
+            background-color: red;
+        }
+    }
+
+    &__edit-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        position: absolute;
+        right: 0;
+        bottom: 0px;
+        background-color: var(--tg-theme-link-color, #49ACEA);
+    }
+
+    &__pencil {
+       fill: white;
+       width: 12px;
+       height: 12px;
+    }
+}

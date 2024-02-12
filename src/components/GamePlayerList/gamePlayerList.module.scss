@@ -1,0 +1,13 @@
+.game-player-list {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none; // for Firefox
+    -ms-overflow-style: none; // for Internet Explorer
+    cursor: grab;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

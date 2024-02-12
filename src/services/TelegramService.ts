@@ -27,14 +27,14 @@ export class TelegramService implements ITelegramService {
     }
   }
 
-  public async getProfilePhoto(userId: number): Promise<any> {
+  public async getProfilePhoto(userId: number): Promise<string> {
     try {
-      const result = <IApiResponse<boolean>>await this._api.get(`${getPhoto}?userId=${userId}`);
+      const result = <IApiResponse<string>>await this._api.get(`${getPhoto}?userId=${userId}`);
       return result.data;
     } catch (error) {
       console.log(error);
             
-      return false;
+      return '';
     } 
   }
     

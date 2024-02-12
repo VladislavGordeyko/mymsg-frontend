@@ -1,8 +1,10 @@
+import { IPlayer } from '@/entities/game';
 import { WebSocketMessage } from 'react-use-websocket/dist/lib/types';
 
 export interface IWebSocketProvider {
     children: React.ReactNode,
-    sessionId?: string
+    sessionId?: string,
+    player: IPlayer,
   }
 
 export enum ReadyState {

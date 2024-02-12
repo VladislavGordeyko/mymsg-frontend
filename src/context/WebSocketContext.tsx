@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { IWebSocketContext, IWebSocketProvider } from './models';
+import { IPlayer } from '@/entities/game';
 
 const WebSocketContext = createContext<IWebSocketContext | undefined>(undefined);
 
@@ -12,10 +13,11 @@ export const useWebSocketContext = () => {
   return context;
 };
 
-export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sessionId }) => {
+export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sessionId, player }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isError, setIsError] = useState(false);
+  // const [currentPlayer, setCurrentPlayer] = useState<IPlayer>(player);
   const WEBSOCKET_URL = process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:3000';
   const {
     sendMessage,
@@ -24,11 +26,18 @@ export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sess
   } = useWebSocket(WEBSOCKET_URL, {
     onOpen: () => {
       setIsLoading(true);
+      console.log({sessionId});
       if (sessionId) {
-        sendMessage(JSON.stringify({ type: 'JOIN_SESSION', sessionId, telegramData: window.Telegram.WebApp.initDataUnsafe }));
-      } else {
-        sendMessage(JSON.stringify({ type: 'CREATE_SESSION', telegramData: window.Telegram.WebApp.initDataUnsafe }));
+        sendMessage(JSON.stringify({
+          type: 'JOIN_SESSION', 
+          sessionId, 
+          player,
+          //  telegramData: window.Telegram.WebApp.initDataUnsafe
+        }));
       }
+      //  else {
+      //   sendMessage(JSON.stringify({ type: 'CREATE_SESSION', telegramData: window.Telegram.WebApp.initDataUnsafe }));
+      // }
       setIsLoading(false);
     },
     onError: () => {

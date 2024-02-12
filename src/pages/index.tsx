@@ -1,53 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.scss';
-import Button from '@/components/Button';
 import Lobby from '@/components/Lobby';
-import { GameType } from '@/entities/game';
-import BOTGame from '@/components/Game/BOTGame';
+import {  IPlayer } from '@/entities/game';
 import { WebSocketProvider } from '@/context/WebSocketContext';
-import Tooltip from '@/components/Tooltip/indes';
+import Login from '@/components/Login';
+import { WebAppInitData } from '@twa-dev/types';
+
+// const mockData: WebAppInitData = {
+//   'user': {
+//     'id': 1,
+//     'first_name': 'Vlad',
+//     'last_name': 'Gordeyko',
+//     'username': 'linken_vlad',
+//     'language_code': 'en',
+//     'allows_write_to_pm': true
+//   },
+//   'chat_instance': '1',
+//   'chat_type': 'private',
+//   'start_param': '1',
+//   'auth_date': 1,
+//   'hash': '1'
+// };
 
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [player, setPlayer] = useState<IPlayer>();
+  const [telegramUserData, setTelegramUserData] = useState<WebAppInitData>();
   const [session, setSession] = useState<string>();
   const [chatId, setChatId] = useState<string>();
-  const [gameType, setGameType] = useState<GameType>('Unnasigned');
   const [onlyAI, setOnlyAI] = useState(false);
+  
+  const onLogin = (name: string, avatar: string) => {
+    setPlayer({avatar: avatar, userName: name, isCurrentMove: false, score: 0, tgId: '1'});
+    setIsLoggedIn(true);
+  };
 
   useEffect(() => {  
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
-
+    console.log(window.Telegram);
     const data = window.Telegram.WebApp.initDataUnsafe.start_param;
+    setTelegramUserData(window.Telegram.WebApp.initDataUnsafe);
     console.log(data);
     if (data) {
       setSession(data);
-      setGameType('Player');
+      // setGameType('Player');
+    } else {
+      setSession('a95accda-2dff-42d1-a598-a00cf7031b25');
     }
   }, []);
 
   const onBack = () => {
-    setGameType('Unnasigned');
+    // setGameType('Unnasigned');
   };
 
   const renderMainComponent = () => {
-    switch (gameType) {
-    case 'BOT': return <BOTGame />;
-    case 'Player': return(
-      <WebSocketProvider sessionId={session}>
-        <Lobby chatId={chatId} session={session} onBack={onBack} />
-      </WebSocketProvider>
-    );
-    default:
-    case 'Unnasigned': return <>
-      <span className={styles['home__title']}>Mymsg</span>
-      <div className={styles['home__buttons']}>
-        <div className={styles['home__play-vs-friends']}>
-          {/* {onlyAI && <Tooltip message='You need to add the bot to the group and start from there to play against your friends.' />} */}
-          <Button onClick={() => setGameType('Player')} text='Start a Game' disabled={onlyAI}/>
-        </div>
-        {/* <Button onClick={() => setGameType('BOT')} text='Play vs Bot'/> */}
-      </div>
-    </>;
+    if (isLoggedIn && player) {
+      return <WebSocketProvider sessionId={session} player={player}>
+        <Lobby chatId={chatId} session={session} onBack={onBack} player={player} />
+      </WebSocketProvider>;
+    } else {
+      return <div className={styles['home__login']}>
+        <Login telegramData={telegramUserData} onLogin={onLogin} />
+      </div>;
     }
   };
 

@@ -23,6 +23,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "react-use-websocket": "^4.4.0",
     "sass": "^1.68.0"
   }

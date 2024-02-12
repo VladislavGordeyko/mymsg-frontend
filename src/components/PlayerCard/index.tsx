@@ -4,9 +4,17 @@ import Image from 'next/image';
 import styles from './playerCard.module.scss';
 
 
-const PlayerCard: React.FC<IPlayerCard> = ({ player }) => {
+const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onClick, isSelected = false }) => {
   return (
-    <div className={styles['player-card']}>
+    <div className={`${styles['player-card']} 
+    ${isCurrentPlayer && styles['player-card--current-player']} 
+    ${size === 'sm' && styles['player-card--small']}
+    ${isSelected && styles['player-card--selected']}
+    `
+    }
+    onClick={onClick}
+    >
+      {/* {player.isHost && <div>HOST</div>} */}
       <div className={`${styles['player-card__image-container']} ${player?.isCurrentMove && styles['player-card__image-container--active']}`}>
         {player?.avatar ?  <Image
           className={styles['player-card__image']} 

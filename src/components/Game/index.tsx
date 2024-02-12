@@ -1,21 +1,25 @@
 
 import React, { useState, useEffect } from 'react';
-import Board from '../Board';
 import { IGame } from './models';
 import { IGameStatus, IPlayer } from '@/entities/game';
 import { useWebSocketContext } from '@/context/WebSocketContext';
+import GamePlayerList from '../GamePlayerList';
 import GameStatus from '../GameStatus';
+import styles from './game.module.scss';
 
 const Game: React.FC<IGame> = ({ 
   sessionId, 
   players,
   gameStatusUpdate, 
-  clientId, 
-  isSpectator = false,
+  clientId,
+  host,
   onPlayersUpdate
 }) => {
   const [gameStatus, setGameStatus] = useState<IGameStatus>();
   const { sendMessage, lastMessage } = useWebSocketContext();
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer>();
+  const [word, setWord] = useState('');
+  const [isGuessed, setIsGuessed] = useState(false);
 
   useEffect(() => {
     if (gameStatusUpdate) {
@@ -28,19 +32,20 @@ const Game: React.FC<IGame> = ({
     sendMessage(JSON.stringify({ type: 'RESTART_GAME', sessionId }));
   };
 
-  useEffect(() => {
-    if (gameStatus?.isFinished && !isSpectator) {
-      window.Telegram.WebApp.MainButton.text = 'Restart Game';
-      window.Telegram.WebApp.MainButton.show();
-      window.Telegram.WebApp.MainButton.onClick(restartGame);
-    }
-  }, [gameStatus?.isFinished, isSpectator]);
+  // useEffect(() => {
+  //   if (gameStatus?.isFinished ) {
+  //     window.Telegram.WebApp.MainButton.text = 'Restart Game';
+  //     window.Telegram.WebApp.MainButton.show();
+  //     window.Telegram.WebApp.MainButton.onClick(restartGame);
+  //   }
+  // }, [gameStatus?.isFinished]);
 
   useEffect(() => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
       switch (data.type) {
-      case 'MOVE':
+      case 'GAME_UPDATE':
+        console.log('Update', data.gameStatus);
         setGameStatus(data.gameStatus);
         onPlayersUpdate(data.players);
         break;
@@ -57,28 +62,42 @@ const Game: React.FC<IGame> = ({
     }
   }, [lastMessage]);
 
-
-  const handleClick = (index: number) => {
-    if (gameStatus?.squares[index] || gameStatus?.winner) return;
-    if (clientId === gameStatus?.currentMoveClientId && gameStatus.started) {
-      sendMessage(JSON.stringify({ type: 'MOVE', sessionId, clientId, index  }));
+  const onPlayerClick = (player: IPlayer) => {
+    if (host?.clientId === clientId && !gameStatus?.currentMoveClientId || (isGuessed && gameStatus?.currentMoveClientId === clientId)) {
+      if (selectedPlayer?.clientId === player.clientId || player.clientId === clientId) {
+        setSelectedPlayer(undefined);
+      } else {
+        setSelectedPlayer(player);
+      }
     }
   };
 
+  // const randomSelect = () => {
+  //   const randomIndex = Math.floor(Math.random() * players.length);
+  //   setSelectedPlayer(players[randomIndex]);
+  // };
+
+  const setWordToUser = () => {
+    setSelectedPlayer(undefined);
+    sendMessage(JSON.stringify({ type: 'GAME_UPDATE', sessionId, word, selectedPlayer, clientId }));
+    setWord('');
+  };
+
   return (
-    <>
+    <div className={styles.game}>
+      <GamePlayerList players={players} onPlayerClick={onPlayerClick} selectedPlayer={selectedPlayer} />
       <GameStatus 
-        players={players} 
-        status={gameStatus?.status}
-        currentMoveClientId={gameStatus?.currentMoveClientId} 
+        clientId={clientId} 
+        gameStatus={gameStatus} 
+        host={host} 
+        onWordChange={setWord} 
+        selectedPlayer={selectedPlayer}
+        setWordToUser={setWordToUser}
+        word={word}
+        isGuessed={isGuessed}
+        setIsGueesed={setIsGuessed}
       />
-      <Board 
-        squares={gameStatus?.squares || Array(9).fill(null)} 
-        onClick={handleClick} 
-        status={gameStatus?.status || ''} 
-      />
-    </>
-   
+    </div>
   );
 };
 

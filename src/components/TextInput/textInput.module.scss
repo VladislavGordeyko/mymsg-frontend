@@ -1,0 +1,19 @@
+.text-input {
+    border: 1px solid var(--tg-theme-link-color, #4B87BB);
+    background-color: inherit;
+    // color: var(--tg-theme-text-color, #4B87BB);
+    color: black;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    font-weight: 500;
+    font-family: Roboto;
+    font-size: 18px;
+    transition: background-color 0.2s, color 0.2s, transform 0.3s;
+
+    &__label {
+        color: gray;
+        font-size: 12px;
+        padding-left: 10px;
+    }
+}

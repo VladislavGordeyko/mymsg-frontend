@@ -1,0 +1,25 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+    
+    &__title {
+        font-size: 45px;   
+        flex: .7;
+        align-items: center;
+        display: flex;
+        font-family: 'Quicksand', sans-serif;
+        color: var(--tg-theme-text-color);
+    }
+
+    &__user-container {
+        // justify-content: center;
+        align-items: center;
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+}
