@@ -19,8 +19,8 @@ const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onCl
         {player?.avatar ?  <Image
           className={styles['player-card__image']} 
           alt='player-avatar'
-          height={50}
-          width={50}
+          height={150}
+          width={150}
           src={player.avatar}
         /> : 
           <div className={styles['player-card__image-fill']}>

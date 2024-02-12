@@ -6,5 +6,4 @@ export interface IGame {
     host?: IPlayer,
     gameStatusUpdate?: IGameStatus,
     clientId: string,
-    onPlayersUpdate: (players: IPlayer[]) => void
 }

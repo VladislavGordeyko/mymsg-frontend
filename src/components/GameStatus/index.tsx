@@ -28,6 +28,22 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
     }
   },[gameStatus]);
 
+  const onBackClick = () => {
+    setIsGueesed(false);
+    window.Telegram.WebApp.BackButton.hide();
+  };
+
+  const onGuessClick = () => {
+    setIsWordHide(true);
+    setIsGueesed(true);
+    window.Telegram.WebApp.BackButton.show();
+    window.Telegram.WebApp.BackButton.onClick(onBackClick);
+  };
+
+  const setWordClick = () => {
+    window.Telegram.WebApp.BackButton.hide();
+    setWordToUser();
+  };
 
   return (
     <div className={styles['game-status']}>
@@ -54,7 +70,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
             </div>
             <div className={styles['game-status__guessed-container']}> 
               <span className={styles['game-status__small-text']}>If someone is guessed press the button below</span>
-              <Button text='Someone guessed' onClick={() => setIsGueesed(true)} />
+              <Button text='Someone guessed' onClick={onGuessClick} />
             </div>
           </> : <div className={styles['game-status__set-word-container']}>
             <Image
@@ -66,7 +82,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
             />
             <span className={styles['game-status__text']}>Pick a player which guessed the word and type a word(s)</span>
             <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
-            <Button text='Confirm' onClick={setWordToUser} disabled={!(selectedPlayer && word !== '')} />
+            <Button text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
           </div>}
         </> : <>{isNotPlayable ? 
           <div className={styles['game-status__watch']}>
@@ -93,7 +109,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
               Select a player to start, type a word, and have that player express the word through body language.
             </span>
             <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
-            <Button className={styles['game-status__set-word']} text='Confirm' onClick={setWordToUser} disabled={!(selectedPlayer && word !== '')} />
+            <Button className={styles['game-status__set-word']} text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
             {/* <Button text='Random select' onClick={randomSelect} /> */}
           </>}
           {!gameStatus?.currentMoveClientId && host?.clientId !== clientId && <div className={styles['game-status__waiting']}>

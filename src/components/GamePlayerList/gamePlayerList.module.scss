@@ -1,13 +1,23 @@
 .game-player-list {
     display: flex;
-    overflow-x: auto;
-    scrollbar-width: none; // for Firefox
-    -ms-overflow-style: none; // for Internet Explorer
-    cursor: grab;
-    padding: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    flex-direction: column;
 
-    &::-webkit-scrollbar {
-        display: none;
+    &__container {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none; // for Firefox
+        -ms-overflow-style: none; // for Internet Explorer
+        cursor: grab;
+        padding: 20px;
+        width: 100%;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__divider {
+        background-color: var(--tg-theme-text-color);
+        opacity: .1;
+        height: 1px;
     }
 }

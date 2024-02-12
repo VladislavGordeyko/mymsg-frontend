@@ -3,6 +3,7 @@ import styles from './gamePlayerList.module.scss';
 import { IGamePlayerList } from './models';
 import PlayerCard from '../PlayerCard';
 import { IPlayer } from '@/entities/game';
+import { playersMock } from '../Lobby/constants';
 
 const GamePlayerList: React.FC<IGamePlayerList> = ({ players, onPlayerClick, selectedPlayer }) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -49,28 +50,24 @@ const GamePlayerList: React.FC<IGamePlayerList> = ({ players, onPlayerClick, sel
   };
   
   return (
-    // <div className={styles['game-player-list']}>
-    //  
-    // </div>
-    <div
-      ref={listRef}
-      onMouseDown={onDragStart}
-      onMouseUp={onDragEnd}
-      onMouseLeave={onDragEnd}
-      onMouseMove={onDragMove}
-      className={styles['game-player-list']}
-      //   style={{
-        
-    //   }}
-    >
-      {players.map(player =>
-        <PlayerCard 
-          key={player.clientId} 
-          player={player} 
-          size='sm' 
-          onClick={() => handleCardClick(player)} 
-          isSelected={selectedPlayer?.clientId === player.clientId}
-        />)}
+    <div className={styles['game-player-list']}>
+      <div  
+        ref={listRef}
+        onMouseDown={onDragStart}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        onMouseMove={onDragMove} 
+        className={styles['game-player-list__container']}>
+        {players.map(player =>
+          <PlayerCard 
+            key={player.clientId} 
+            player={player} 
+            size='sm' 
+            onClick={() => handleCardClick(player)} 
+            isSelected={selectedPlayer?.clientId === player.clientId}
+          />)}
+      </div>
+      <div className={styles['game-player-list__divider']}></div>
     </div>
   );
 };

@@ -34,6 +34,7 @@
       transition: opacity 0.5s ease-in-out;
       cursor: pointer;
       text-align: center;
+      color: var(--tg-theme-text-color);
       font-size: 25px;
       font-weight: 800;
    }
@@ -41,6 +42,7 @@
    &__small-text {
       font-size: 12px;
       text-align: center;
+      color: var(--tg-theme-text-color);
    }
 
    &__guessed-container {

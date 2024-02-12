@@ -13,7 +13,6 @@ const Game: React.FC<IGame> = ({
   gameStatusUpdate, 
   clientId,
   host,
-  onPlayersUpdate
 }) => {
   const [gameStatus, setGameStatus] = useState<IGameStatus>();
   const { sendMessage, lastMessage } = useWebSocketContext();
@@ -47,12 +46,10 @@ const Game: React.FC<IGame> = ({
       case 'GAME_UPDATE':
         console.log('Update', data.gameStatus);
         setGameStatus(data.gameStatus);
-        onPlayersUpdate(data.players);
         break;
 
       case 'RESTART_GAME':
         setGameStatus(data.gameStatus);
-        onPlayersUpdate(data.players);
         window.Telegram.WebApp.MainButton.hide();
         break;
 
@@ -78,8 +75,10 @@ const Game: React.FC<IGame> = ({
   // };
 
   const setWordToUser = () => {
+    setIsGuessed(false);
     setSelectedPlayer(undefined);
     sendMessage(JSON.stringify({ type: 'GAME_UPDATE', sessionId, word, selectedPlayer, clientId }));
+
     setWord('');
   };
 

@@ -22,6 +22,7 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
   const { lastMessage, isLoading, error, sendMessage } = useWebSocketContext();
 
   const startGame = () => {
+    window.Telegram.WebApp.MainButton.hide();
     sendMessage(JSON.stringify({ type: 'START_GAME', sessionId }));
     // setGameStatus('')
   };
@@ -72,17 +73,18 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
     }
   }, [lastMessage]);
 
-  const onBackHandle = () => {
-    onBack();
-    window.Telegram.WebApp.BackButton.hide();
-  };
+  // const onBackHandle = () => {
+  //   onBack();
+  //   window.Telegram.WebApp.BackButton.hide();
+  // };
 
   useEffect(() => {
-    if (isSessionExist !== undefined && !isSessionExist || error) {
-      window.Telegram.WebApp.BackButton.show();
-      window.Telegram.WebApp.BackButton.onClick(onBackHandle);
+    if (isHost && gameStatus?.status === 'lobby') {
+      window.Telegram.WebApp.MainButton.setText('Start Game');
+      window.Telegram.WebApp.MainButton.show();
+      window.Telegram.WebApp.MainButton.onClick(startGame);
     }
-  }, [isSessionExist, error]);
+  }, [isHost, gameStatus]);
 
   const handlePlayersUpdate = (players: IPlayer[]) => {
     // setPlayers(players);
@@ -92,13 +94,13 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
     switch(gameStatus?.status) {
     case 'lobby': return <div className={styles['lobby--padding']}>
       <div className={styles['lobby__header']}>Waiting another players to join...</div>
-      {isHost && <div className={styles['lobby__start-button']}>
+      {/* {isHost && <div className={styles['lobby__start-button']}>
         <Button 
           text='Start game' 
           onClick={startGame}
         //  disabled={players && players?.length < 3} 
         />
-      </div>}
+      </div>} */}
       <div className={styles['lobby__players']}>
         {players?.map(i => <PlayerCard key={i.clientId} player={i} isCurrentPlayer={i.clientId === clientId} />)}
       </div>
@@ -110,7 +112,6 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
       gameStatusUpdate={gameStatus} 
       sessionId={sessionId} 
       players={players || []} 
-      onPlayersUpdate={handlePlayersUpdate}
     />;
     }
   };

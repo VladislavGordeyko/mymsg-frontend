@@ -1,8 +1,7 @@
 .text-input {
     border: 1px solid var(--tg-theme-link-color, #4B87BB);
     background-color: inherit;
-    // color: var(--tg-theme-text-color, #4B87BB);
-    color: black;
+    color: var(--tg-theme-text-color, #4B87BB);
     width: 100%;
     padding: 10px;
     border-radius: 7px;
@@ -15,5 +14,21 @@
         color: gray;
         font-size: 12px;
         padding-left: 10px;
+    }
+
+    &__suggestion-container {
+        margin-top: 5px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    &__suggestion {
+        font-size: 12px;
+        background-color: var(--tg-theme-button-color, #4B87BB);
+        border-radius: 12px;
+        padding: 5px 10px;
+        color: var(--tg-theme-button-text-color);
+        
     }
 }

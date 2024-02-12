@@ -10,9 +10,9 @@ const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarCha
   const [showModal, setShowModal] = useState(false);
   // const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>();
 
-  const handleAvatarClick = (avatar: AvatarOption) => {
+  const handleAvatarClick = (newAvatar: AvatarOption) => {
     // setSelectedAvatar(avatar);
-    onAvatarChange(avatar);
+    onAvatarChange(newAvatar);
     setShowModal(false);
   };
 
@@ -23,11 +23,12 @@ const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarCha
         <div className={styles['avatar-picker__avatars']}>
           {avatarOptions.map((avatar) => (
             <Image
+              className={styles['avatar-picker__modal-avatar']}
               key={avatar.id}
               src={avatar.imageUrl}
               alt={`Avatar ${avatar.id}`}
-              width={50}
-              height={50}
+              width={150}
+              height={150}
               onClick={() => handleAvatarClick(avatar)}
               style={{ cursor: 'pointer' }}
             />
@@ -44,10 +45,10 @@ const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarCha
       <Image
         onClick={() => isEditable && setShowModal(true)}
         className={styles['avatar-picker__avatar']}
-        src={avatar.imageUrl}
+        src={avatar}
         alt='avatar'
-        height={50}
-        width={50}
+        height={150}
+        width={150}
       />
       {/* } */}
       {isEditable && 

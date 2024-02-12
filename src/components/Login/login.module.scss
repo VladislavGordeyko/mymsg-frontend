@@ -4,6 +4,8 @@
     align-items: center;
     flex-direction: column;
     height: 80%;
+    width: 100%;
+    padding: 20px;
     
     &__title {
         font-size: 45px;   
@@ -15,11 +17,15 @@
     }
 
     &__user-container {
-        // justify-content: center;
+        width: 100%;
         align-items: center;
         gap: 20px;
         display: flex;
         flex-direction: column;
         flex: 1;
+    }
+
+    &__input {
+        width: 100%;
     }
 }

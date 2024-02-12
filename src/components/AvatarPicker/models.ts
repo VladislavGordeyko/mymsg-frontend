@@ -1,5 +1,5 @@
 export interface IAvatarPicker {
-    avatar: AvatarOption,
+    avatar: string,
     isEditable?: boolean,
     onAvatarChange: (avatar: AvatarOption) => void,
 }
