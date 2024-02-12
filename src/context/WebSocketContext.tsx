@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { IWebSocketContext, IWebSocketProvider } from './models';
+import { v4 as uuidv4 } from 'uuid';
 import { IPlayer } from '@/entities/game';
 
 const WebSocketContext = createContext<IWebSocketContext | undefined>(undefined);
@@ -15,7 +16,7 @@ export const useWebSocketContext = () => {
 
 export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sessionId, player }) => {
 
-
+  const [clientId, setClientId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isError, setIsError] = useState(false);
@@ -24,6 +25,17 @@ export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sess
 
   const maxReconnectAttempts = 20;
   let reconnectAttempts = 0;
+
+  useEffect(() => {
+    let uid = localStorage.getItem('clientId');
+    if (!uid) {
+      uid = uuidv4();
+      localStorage.setItem('clientId', uid);
+    }
+    setClientId(uid);
+  }, []);
+
+
   const {
     sendMessage,
     lastMessage,
@@ -37,6 +49,7 @@ export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sess
           type: 'JOIN_SESSION', 
           sessionId, 
           player,
+          clientId
           //  telegramData: window.Telegram.WebApp.initDataUnsafe
         }));
       }
@@ -73,7 +86,7 @@ export const WebSocketProvider: React.FC<IWebSocketProvider> = ({ children, sess
   });
 
   return (
-    <WebSocketContext.Provider value={{ sendMessage, lastMessage, readyState, isLoading, error, isError }}>
+    <WebSocketContext.Provider value={{ sendMessage, lastMessage, readyState, isLoading, error, isError, clientId }}>
       {children}
     </WebSocketContext.Provider>
   );

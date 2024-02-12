@@ -20,10 +20,12 @@
     "next": "13.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
+    "@types/uuid": "^9.0.8",
     "react-use-websocket": "^4.4.0",
     "sass": "^1.68.0"
   }

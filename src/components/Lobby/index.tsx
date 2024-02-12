@@ -16,10 +16,10 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
   const [players, setPlayers] = useState<IPlayer[]>();
   const [isHost, setIsHost] = useState(false);
   const [host, setHost] = useState<IPlayer>();
-  const [clientId, setClientId] = useState('');
+  // const [clientId, setClientId] = useState('');
   const [gameStatus, setGameStatus] = useState<IGameStatus>();
   const [, setSpectators] = useState<IBaseClient[]>();
-  const { lastMessage, isLoading, error, sendMessage } = useWebSocketContext();
+  const { lastMessage, isLoading, error, sendMessage, clientId } = useWebSocketContext();
 
   const startGame = () => {
     window.Telegram.WebApp.MainButton.hide();
@@ -44,15 +44,23 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
         const players: IPlayer[] = data.players;
         const spectators : IBaseClient[] = data.spectators;
          
-        if (!clientId) {
-          setClientId(data.clientId);
-          const host = players.find(player => player.isHost);
+        const host = players.find(player => player.isHost);
+        if (host) {
           setHost(host);
-
           if (data.clientId === host?.clientId) {
             setIsHost(true);
           }
         }
+        // if ()
+        // if (!clientId) {
+        //   // setClientId(data.clientId);
+        //   const host = players.find(player => player.isHost);
+        //   setHost(host);
+
+        //   if (data.clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
 
         setPlayers(players);
         setSpectators(spectators);

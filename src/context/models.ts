@@ -22,4 +22,6 @@ export interface IWebSocketContext {
     isLoading: boolean,
     error: string,
     isError: boolean,
+    clientId: string,
   }
+  
