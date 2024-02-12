@@ -30,6 +30,7 @@ export class TelegramService implements ITelegramService {
   public async getProfilePhoto(userId: number): Promise<string> {
     try {
       const result = <IApiResponse<string>>await this._api.get(`${getPhoto}?userId=${userId}`);
+      console.log('result', {result});
       return result.data;
     } catch (error) {
       console.log(error);
