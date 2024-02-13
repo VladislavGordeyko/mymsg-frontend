@@ -28,13 +28,11 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
   };
 
   useEffect(() => {
-    console.log({players});
-    if (players && players.length > 0) {
-    
+    if (players && players.length > 0 && !isHost) {
       const newHost = players.find(player => player.isHost);
-      if (newHost && !isHost) {
+      if (newHost) {
         setHost(newHost);
-        if (clientId === host?.clientId) {
+        if (clientId === newHost?.clientId) {
           setIsHost(true);
         }
       }
@@ -59,12 +57,12 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
         const spectators : IBaseClient[] = data.spectators;
          
         const newHost = players.find(player => player.isHost);
-        if (newHost) {
-          setHost(newHost);
-          if (data.clientId === host?.clientId) {
-            setIsHost(true);
-          }
-        }
+        // if (newHost) {
+        //   setHost(newHost);
+        //   if (data.clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
         // if ()
         // if (!clientId) {
         //   // setClientId(data.clientId);
