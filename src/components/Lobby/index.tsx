@@ -28,6 +28,18 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
   };
 
   useEffect(() => {
+    if (players && players.length > 0) {
+      const newHost = players.find(player => player.isHost);
+      if (newHost && !isHost) {
+        setHost(newHost);
+        if (clientId === host?.clientId) {
+          setIsHost(true);
+        }
+      }
+    }
+  },[players]);
+
+  useEffect(() => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage.data);
       const tgService = new TelegramService;
@@ -44,9 +56,9 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
         const players: IPlayer[] = data.players;
         const spectators : IBaseClient[] = data.spectators;
          
-        const host = players.find(player => player.isHost);
-        if (host) {
-          setHost(host);
+        const newHost = players.find(player => player.isHost);
+        if (newHost) {
+          setHost(newHost);
           if (data.clientId === host?.clientId) {
             setIsHost(true);
           }
@@ -76,13 +88,13 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
         // setGameStatus(data.gameStatus);
         const newPlayers: IPlayer[] = data.players;
         setPlayers(newPlayers);
-        const newHost = newPlayers.find(player => player.isHost);
-        if (newHost) {
-          setHost(host);
-          if (clientId === host?.clientId) {
-            setIsHost(true);
-          }
-        }
+        // const newHost = newPlayers.find(player => player.isHost);
+        // if (newHost) {
+        //   setHost(host);
+        //   if (clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
         // setSpectators(data.spectators);
         break;
       }
