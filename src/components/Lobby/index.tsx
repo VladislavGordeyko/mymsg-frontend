@@ -74,7 +74,15 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
 
       case 'USER_DISCONNECTED': 
         // setGameStatus(data.gameStatus);
-        setPlayers(data.players);
+        const newPlayers: IPlayer[] = data.players;
+        setPlayers(newPlayers);
+        const newHost = newPlayers.find(player => player.isHost);
+        if (newHost) {
+          setHost(host);
+          if (clientId === host?.clientId) {
+            setIsHost(true);
+          }
+        }
         // setSpectators(data.spectators);
         break;
       }
