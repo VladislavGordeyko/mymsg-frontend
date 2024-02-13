@@ -5,13 +5,12 @@ import { AvatarOption, IAvatarPicker } from './models';
 import Image from 'next/image';
 import Modal from './components/Modal';
 import { avatarOptions } from './constants';
+import Spinner from '../Spinner';
 
-const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarChange }) => {
+const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarChange , isLoading = false }) => {
   const [showModal, setShowModal] = useState(false);
-  // const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>();
 
   const handleAvatarClick = (newAvatar: AvatarOption) => {
-    // setSelectedAvatar(avatar);
     onAvatarChange(newAvatar);
     setShowModal(false);
   };
@@ -35,23 +34,15 @@ const AvatarPicker: React.FC<IAvatarPicker> = ({ avatar, isEditable, onAvatarCha
           ))}
         </div>
       </Modal>
-      {/* {avatar ? <img
-        alt='user-avatar'
-        onClick={() => isEditable && setShowModal(true)}
-        className={styles['avatar-picker__avatar']}
-        // src='https://fastly.picsum.photos/id/433/200/200.jpg?hmac=dBn6DDBngOA94Grm3jfIJNDtv08GorUvB0zMeAw0Jfs'
-        src={image}
-      /> :  */}
-      <Image
+      {isLoading ? <Spinner /> : <Image
         onClick={() => isEditable && setShowModal(true)}
         className={styles['avatar-picker__avatar']}
         src={avatar}
         alt='avatar'
         height={150}
         width={150}
-      />
-      {/* } */}
-      {isEditable && 
+      />}
+      {isEditable && !isLoading &&
       <div className={styles['avatar-picker__edit-container']}>
         <PencilIcon className={styles['avatar-picker__pencil']} />
       </div>}

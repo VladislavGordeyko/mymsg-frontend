@@ -10,7 +10,7 @@ import styles from './lobby.module.scss';
 import PlayerCard from '../PlayerCard';
 import Button from '../Button';
 
-const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
+const Lobby: React.FC<ILobby> = ({ session, onBack, player }) => {
   const [isSessionExist, setIsSessionExist] = useState<boolean | undefined>();
   const [sessionId, setSessionId] = useState(session);
   const [players, setPlayers] = useState<IPlayer[]>();

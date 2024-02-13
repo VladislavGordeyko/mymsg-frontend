@@ -27,11 +27,9 @@ const Home = () => {
   const [player, setPlayer] = useState<IPlayer>();
   const [telegramUserData, setTelegramUserData] = useState<WebAppInitData>();
   const [session, setSession] = useState<string>();
-  const [chatId, setChatId] = useState<string>();
-  const [onlyAI, setOnlyAI] = useState(false);
   
   const onLogin = (name: string, avatar: string) => {
-    setPlayer({avatar: avatar, userName: name, isCurrentMove: false, score: 0, tgId: '1'});
+    setPlayer({avatar: avatar, userName: name, isCurrentMove: false, score: 0, tgId: '1',});
     setIsLoggedIn(true);
   };
 
@@ -57,7 +55,7 @@ const Home = () => {
   const renderMainComponent = () => {
     if (isLoggedIn && player) {
       return <WebSocketProvider sessionId={session} player={player}>
-        <Lobby chatId={chatId} session={session} onBack={onBack} player={player} />
+        <Lobby session={session} onBack={onBack} player={player} />
       </WebSocketProvider>;
     } else {
       return <div className={styles['home__login']}>

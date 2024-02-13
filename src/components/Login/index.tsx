@@ -9,30 +9,24 @@ import { AvatarOption } from '../AvatarPicker/models';
 import { avatarOptions } from '../AvatarPicker/constants';
 
 const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
-  const [name, setName] = useState(telegramData?.user?.username);
+  const [name, setName] = useState('');
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [nameSuggestions, setNameSuggestions] = useState<string[]>([]);
   const [avatar, setAvatar] = useState<AvatarOption>(avatarOptions[0]);
-
+ 
   useEffect(() => {
     if(telegramData && telegramData.user) {
-      setName(telegramData.user.username);
-      let suggestions: string[] = [];
-      if (telegramData.user.username) {
-        suggestions.push(telegramData.user.username);
-      }
-      if (telegramData.user.first_name) {
-        suggestions.push(telegramData.user.first_name);
-      }
-      if (telegramData.user.last_name) {
-        suggestions.push(telegramData.user.last_name);
-      }
-      if (telegramData.user.last_name && telegramData.user.first_name) {
-        suggestions.push(`${telegramData.user.first_name} ${telegramData.user.last_name}`);
-      }
-      setNameSuggestions(suggestions);
+      const { username, first_name, last_name } = telegramData.user;
+      setName(username || first_name);
 
-      console.log({nameSuggestions});
-      
+      const suggestions = [
+        username,
+        first_name,
+        last_name,
+        first_name && last_name ? `${first_name} ${last_name}` : null,
+      ].filter(Boolean) as string[];
+
+      setNameSuggestions(suggestions);
     }
   },[telegramData]);
 
@@ -47,6 +41,7 @@ const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
   };
 
   const getAvatar = async () => {
+    setIsImageLoading(true);
     const tgService = new TelegramService();
     if (telegramData?.user) {
       const avatar = await tgService.getProfilePhoto(telegramData?.user?.id);
@@ -55,8 +50,8 @@ const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
         setAvatar(telegramAvatar);
         avatarOptions.push(telegramAvatar);
       }
-     
     }
+    setIsImageLoading(false);
   };
 
   useEffect(() => {
@@ -67,10 +62,15 @@ const Login:React.FC<ILogin> = ({ telegramData, onLogin }) => {
     <div className={styles['login']}>
       <span className={styles['login__title']}>MYMSG</span>
       <div className={styles['login__user-container']}>
-        <AvatarPicker avatar={avatar.imageUrl} isEditable  onAvatarChange={avatarChange}/>
+        <AvatarPicker 
+          isLoading={isImageLoading} 
+          avatar={avatar.imageUrl} 
+          isEditable  
+          onAvatarChange={avatarChange}
+        />
         <TextInput className={styles['login__input']} label='Name' value={name} onChange={setName}  placeholder='Put your name here' suggestions={nameSuggestions}/>
       </div>
-      <Button onClick={onJoin} text='Join game' disabled={name === ''}/>
+      <Button onClick={onJoin} text='Join game' disabled={!name}/>
     </div>
   );
 };

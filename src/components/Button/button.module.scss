@@ -10,6 +10,7 @@
     font-size: 18px;
     text-transform: uppercase;
     transition: background-color 0.2s, color 0.2s, transform 0.3s;
+    user-select: none;
 
     &:active {
         background-color: var(--tg-theme-link-color, #4B87BB);
