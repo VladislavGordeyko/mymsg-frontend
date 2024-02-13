@@ -44,6 +44,10 @@
       text-align: center;
       color: var(--tg-theme-text-color);
    }
+   
+   &__text-info {
+      color: var(--tg-theme-text-color);
+   }
 
    &__guessed-container {
       display: flex;

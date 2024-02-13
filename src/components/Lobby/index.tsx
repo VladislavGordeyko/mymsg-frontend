@@ -56,7 +56,7 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
         const players: IPlayer[] = data.players;
         const spectators : IBaseClient[] = data.spectators;
          
-        const newHost = players.find(player => player.isHost);
+        // const newHost = players.find(player => player.isHost);
         // if (newHost) {
         //   setHost(newHost);
         //   if (data.clientId === host?.clientId) {

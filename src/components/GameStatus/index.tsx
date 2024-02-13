@@ -91,7 +91,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
           <div className={styles['game-status__player-show']}>
             <span className={styles['game-status__text']}>This player is currently showing the word:</span>
             {gameStatus.currentMovePlayer && <PlayerCard player={gameStatus.currentMovePlayer} />}
-            <span >Try to guess the word</span>
+            <span className={styles['game-status__text-info']}>Try to guess the word</span>
           </div>
         }</>}
       </>  : 
