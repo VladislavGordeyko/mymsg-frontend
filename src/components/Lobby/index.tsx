@@ -28,7 +28,9 @@ const Lobby: React.FC<ILobby> = ({ chatId, session, onBack, player }) => {
   };
 
   useEffect(() => {
+    console.log({players});
     if (players && players.length > 0) {
+    
       const newHost = players.find(player => player.isHost);
       if (newHost && !isHost) {
         setHost(newHost);
