@@ -110,7 +110,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
                 <span className={styles['game-status__text']}>
                   Select a player to start, type a word, and have that player express the word through body language.
                 </span>
-                <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
+                <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s)' label='Word(s)' />
               </div>
 
               <Button className={styles['game-status__set-word']} text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
