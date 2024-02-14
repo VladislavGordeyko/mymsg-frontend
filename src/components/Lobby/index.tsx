@@ -44,59 +44,59 @@ const Lobby: React.FC<ILobby> = ({ session, onBack, player }) => {
       const data = JSON.parse(lastMessage.data);
       const tgService = new TelegramService;
       switch (data.type) {
-        case 'START_GAME':
-          const newGameStatus: IGameStatus = data.gameStatus;
-          setGameStatus(newGameStatus);
-          console.log({ newGameStatus });
-          break;
+      case 'START_GAME':
+        const newGameStatus: IGameStatus = data.gameStatus;
+        setGameStatus(newGameStatus);
+        console.log({ newGameStatus });
+        break;
 
-        case 'SESSION_JOINED':
-          setIsSessionExist(true);
-          const gameStatus: IGameStatus = data.gameStatus;
-          const players: IPlayer[] = data.players;
-          const spectators: IBaseClient[] = data.spectators;
+      case 'SESSION_JOINED':
+        setIsSessionExist(true);
+        const gameStatus: IGameStatus = data.gameStatus;
+        const players: IPlayer[] = data.players;
+        const spectators: IBaseClient[] = data.spectators;
 
-          // const newHost = players.find(player => player.isHost);
-          // if (newHost) {
-          //   setHost(newHost);
-          //   if (data.clientId === host?.clientId) {
-          //     setIsHost(true);
-          //   }
-          // }
-          // if ()
-          // if (!clientId) {
-          //   // setClientId(data.clientId);
-          //   const host = players.find(player => player.isHost);
-          //   setHost(host);
+        // const newHost = players.find(player => player.isHost);
+        // if (newHost) {
+        //   setHost(newHost);
+        //   if (data.clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
+        // if ()
+        // if (!clientId) {
+        //   // setClientId(data.clientId);
+        //   const host = players.find(player => player.isHost);
+        //   setHost(host);
 
-          //   if (data.clientId === host?.clientId) {
-          //     setIsHost(true);
-          //   }
-          // }
+        //   if (data.clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
 
-          setPlayers(players);
-          setSpectators(spectators);
-          setGameStatus(gameStatus);
-          setSessionId(data.sessionId);
-          break;
+        setPlayers(players);
+        setSpectators(spectators);
+        setGameStatus(gameStatus);
+        setSessionId(data.sessionId);
+        break;
 
-        case 'SESSION_ERROR':
-          setIsSessionExist(false);
-          break;
+      case 'SESSION_ERROR':
+        setIsSessionExist(false);
+        break;
 
-        case 'USER_DISCONNECTED':
-          // setGameStatus(data.gameStatus);
-          const newPlayers: IPlayer[] = data.players;
-          setPlayers(newPlayers);
-          // const newHost = newPlayers.find(player => player.isHost);
-          // if (newHost) {
-          //   setHost(host);
-          //   if (clientId === host?.clientId) {
-          //     setIsHost(true);
-          //   }
-          // }
-          // setSpectators(data.spectators);
-          break;
+      case 'USER_DISCONNECTED':
+        // setGameStatus(data.gameStatus);
+        const newPlayers: IPlayer[] = data.players;
+        setPlayers(newPlayers);
+        // const newHost = newPlayers.find(player => player.isHost);
+        // if (newHost) {
+        //   setHost(host);
+        //   if (clientId === host?.clientId) {
+        //     setIsHost(true);
+        //   }
+        // }
+        // setSpectators(data.spectators);
+        break;
       }
     }
   }, [lastMessage]);
@@ -116,35 +116,35 @@ const Lobby: React.FC<ILobby> = ({ session, onBack, player }) => {
 
   const getComponentComponent = () => {
     switch (gameStatus?.status) {
-      case 'lobby': return <div className={styles['lobby--padding']}>
-        <div className={styles['lobby__header']}>Waiting another players to join...</div>
-        {/* <Button
+    case 'lobby': return <div className={styles['lobby--padding']}>
+      <div className={styles['lobby__header']}>Waiting another players to join...</div>
+      {/* <Button
           text='Start game'
           onClick={startGame}
         //  disabled={players && players?.length < 3} 
         /> */}
-        {/* {isHost && <div className={styles['lobby__start-button']}>
+      {/* {isHost && <div className={styles['lobby__start-button']}>
         <Button 
           text='Start game' 
           onClick={startGame}
         //  disabled={players && players?.length < 3} 
         />
       </div>} */}
-        {/* {!isHost && <div>
+      {/* {!isHost && <div>
           Game settings
         </div>} */}
-        <div className={styles['lobby__players']}>
-          {players?.map(i => <PlayerCard key={i.clientId} player={i} isCurrentPlayer={i.clientId === clientId} />)}
-        </div>
+      <div className={styles['lobby__players']}>
+        {players?.map(i => <PlayerCard key={i.clientId} player={i} isCurrentPlayer={i.clientId === clientId} />)}
+      </div>
 
-      </div>;
-      case 'started': return <Game
-        clientId={clientId}
-        host={host}
-        gameStatusUpdate={gameStatus}
-        sessionId={sessionId}
-        players={players || []}
-      />;
+    </div>;
+    case 'started': return <Game
+      clientId={clientId}
+      host={host}
+      gameStatusUpdate={gameStatus}
+      sessionId={sessionId}
+      players={players || []}
+    />;
     }
   };
 
