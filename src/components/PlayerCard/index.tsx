@@ -4,7 +4,7 @@ import Image from 'next/image';
 import styles from './playerCard.module.scss';
 import { getTitleByTgUserName } from '@/utils/stringUtils';
 
-const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onClick, isSelected = false }) => {
+const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onClick, isSelected = false, showTitle }) => {
   const [title, setTitle] = useState('');
 
   const getTitle = () => {
@@ -12,7 +12,10 @@ const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onCl
   };
 
   useEffect(() => {
-    getTitle();
+    if (showTitle) {
+      getTitle();
+    }
+
   }, []);
 
   return (
@@ -22,7 +25,7 @@ const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onCl
     ${isSelected && styles['player-card--selected']}
     `
     }
-    onClick={onClick}
+      onClick={onClick}
     >
       {/* {player.isHost && <div>HOST</div>} */}
       <div className={`${styles['player-card__image-container']} ${player?.isCurrentMove && styles['player-card__image-container--active']}`}>
@@ -45,7 +48,7 @@ const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onCl
         }
       </div>
       <div className={styles['player-card__name']}>{player?.userName}</div>
-      {title && <div className={styles['player-card__title']}>{title}</div>}
+      {showTitle && title && <div className={styles['player-card__title']}>{title}</div>}
     </div>
   );
 };
