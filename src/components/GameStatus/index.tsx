@@ -6,7 +6,7 @@ import Image from 'next/image';
 import TextInput from '../TextInput';
 import Button from '../Button';
 
-const GameStatus: React.FC<IGameStatusComponent> = ({ 
+const GameStatus: React.FC<IGameStatusComponent> = ({
   clientId,
   gameStatus,
   host,
@@ -26,7 +26,7 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
     } else {
       setIsNotPlayable(false);
     }
-  },[gameStatus]);
+  }, [gameStatus]);
 
   const onBackClick = () => {
     setIsGueesed(false);
@@ -53,78 +53,82 @@ const GameStatus: React.FC<IGameStatusComponent> = ({
             <div className={styles['game-status__word-container']}>
               <span className={styles['game-status__text']}>You are demonstrating this word:</span>
               <div className={styles['game-status__word']}>
-                {isWordHide ? 
-                  <Button 
-                    text='Show word' 
-                    onClick={() => setIsWordHide(false)} 
+                {isWordHide ?
+                  <Button
+                    text='Show word'
+                    onClick={() => setIsWordHide(false)}
                   /> :
-                  <span 
+                  <span
                     className={styles['game-status__word-text']}
-                    onClick={() =>setIsWordHide(true)}
+                    onClick={() => setIsWordHide(true)}
                   >
                     {gameStatus.currentWord}
                   </span>
-                } 
+                }
               </div>
               {/* <span className={styles['game-status__small-text']}>Please try to show the words using sign language, not using words or giving clues that can be lip-read.</span> */}
             </div>
-            <div className={styles['game-status__guessed-container']}> 
+            <div className={styles['game-status__guessed-container']}>
               <span className={styles['game-status__small-text']}>If someone is guessed press the button below</span>
               <Button text='Someone guessed' onClick={onGuessClick} />
             </div>
           </> : <div className={styles['game-status__set-word-container']}>
             <Image
               src='/assets/charades-game.png'
-              alt='charades-game' 
+              alt='charades-game'
               width={543}
               height={499}
               className={styles['game-status__image']}
             />
             <span className={styles['game-status__text']}>Pick a player which guessed the word and type a word(s)</span>
-            <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
+            <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s)' label='Word(s)' />
             <Button text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
           </div>}
-        </> : <>{isNotPlayable ? 
+        </> : <>{isNotPlayable ?
           <div className={styles['game-status__watch']}>
             <span className={styles['game-status__text']}>Now just chill and have fun!</span>
-          </div> : 
+          </div> :
           <div className={styles['game-status__player-show']}>
             <span className={styles['game-status__text']}>This player is currently showing the word:</span>
             {gameStatus.currentMovePlayer && <PlayerCard player={gameStatus.currentMovePlayer} />}
             <span className={styles['game-status__text-info']}>Try to guess the word</span>
           </div>
         }</>}
-      </>  : 
+      </> :
         <>
           {host?.clientId === clientId && !gameStatus?.currentMoveClientId &&
-          <>
+            <>
+
+              <div className={styles['game-status__waiting']}>
+                <Image
+                  src='/assets/charades-game.png'
+                  alt='charades-game'
+                  width={543}
+                  height={499}
+                  className={styles['game-status__image']}
+                />
+                <span className={styles['game-status__text']}>
+                  Select a player to start, type a word, and have that player express the word through body language.
+                </span>
+                <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
+              </div>
+
+              <Button className={styles['game-status__set-word']} text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
+              {/* <Button text='Random select' onClick={randomSelect} /> */}
+            </>}
+          {!gameStatus?.currentMoveClientId && host?.clientId !== clientId && <div className={styles['game-status__waiting']}>
             <Image
               src='/assets/charades-game.png'
-              alt='charades-game' 
+              alt='charades-game'
               width={543}
               height={499}
               className={styles['game-status__image']}
             />
             <span className={styles['game-status__text']}>
-              Select a player to start, type a word, and have that player express the word through body language.
+              Waiting to player will be chosen...
             </span>
-            <TextInput className={styles['game-status__input']} value={word} onChange={onWordChange} placeholder='Word(s) to show' label='Word(s)' />
-            <Button className={styles['game-status__set-word']} text='Confirm' onClick={setWordClick} disabled={!(selectedPlayer && word !== '')} />
-            {/* <Button text='Random select' onClick={randomSelect} /> */}
-          </>}
-          {!gameStatus?.currentMoveClientId && host?.clientId !== clientId && <div className={styles['game-status__waiting']}>
-            <Image 
-              src='/assets/charades-game.png'
-              alt='charades-game' 
-              width={543}
-              height={499}
-              className={styles['game-status__image']}
-            />
-            <span className={styles['game-status__text']}>
-              Waiting to player will be choosen...
-            </span>
-          </div> }
-        </> }
+          </div>}
+        </>}
     </div>
   );
 };

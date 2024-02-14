@@ -6,4 +6,5 @@ export interface IPlayerCard {
     isCurrentPlayer?: boolean,
     size?: 'sm' | 'md',
     onClick?: () => void,
+    showTitle?: boolean,
 }
