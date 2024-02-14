@@ -25,7 +25,7 @@ const PlayerCard: React.FC<IPlayerCard> = ({ player, isCurrentPlayer, size, onCl
     ${isSelected && styles['player-card--selected']}
     `
     }
-      onClick={onClick}
+    onClick={onClick}
     >
       {/* {player.isHost && <div>HOST</div>} */}
       <div className={`${styles['player-card__image-container']} ${player?.isCurrentMove && styles['player-card__image-container--active']}`}>
